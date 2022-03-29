@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+
+  telebot:
+    container_name: exercise_3_telebot
+    depends_on:
+      - psql
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    working_dir: /var/app
+    volumes:
+      - ".:/var/app"
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - TELEGRAM_CHANNEL=${TELEGRAM_CHANNEL}
+      - PSQL_USER=${PSQL_USER}
+      - PSQL_PASS=${PSQL_PASS}
+      - PSQL_DB=${PSQL_DB}
+      - PSQL_HOST=host.docker.internal
+      - PSQL_PORT=${PSQL_PORT}
+
+  psql:
+    container_name: exerscise_3_psql
+    image: postgres:13-alpine
+    expose:
+      - ${PSQL_PORT}
+    ports:
+      - ${PSQL_PORT}:${PSQL_PORT}
+    volumes:
+      - "psql_data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${PSQL_USER}
+      POSTGRES_PASSWORD: ${PSQL_PASS}
+      POSTGRES_DB: ${PSQL_DB}
+
+volumes:
+  psql_data: {}

@@ -1,0 +1,8 @@
+.idea
+__pycache__
+
+exercise_1/pp-complete.csv
+exercise_1/result/
+exercise_1/buffer_results/
+exercise_1/buffer/
+
